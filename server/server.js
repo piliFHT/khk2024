@@ -12,11 +12,11 @@ app.get("/message", (req, res) => {
   // res.json({ message: "Hello from Lukáš!",
   //            kokos: "Něco něco!"
   // });
-  const filePath = path.join(__dirname, "db.json");
+  const filePath = path.join(__dirname, "zamky.geojson");
 
   fs.readFile(filePath, "utf-8", (err, data) =>
   {
-    if(!data){
+    if(!data || err){
       return res.status(500).json({error: "JSON not found!"});
     }
     else{
