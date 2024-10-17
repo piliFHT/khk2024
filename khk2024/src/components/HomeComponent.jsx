@@ -56,8 +56,8 @@ const HomeComponent = () => {
         <div>
             <h1>GeoJSON data:</h1>
             {geoData ? (
-                <select ref={selectRef} placeholder="Select an option...">
-                    <option value="">Select an option...</option>
+                <select ref={selectRef} class="select" placeholder="Select an option...">
+                    <option class="option" value="">Select an option...</option>
                 </select>
             ) : (
                 <p>Loading data...</p>
