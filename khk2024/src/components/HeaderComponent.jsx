@@ -6,14 +6,14 @@ function Header() {
 
   return (
     <header>
-        <div class="logo">
+        <div className="logo">
             <img src={logo} alt="Logo webu"></img>
         </div>
 
-        <div class="menu-toggle" id="menu-toggle">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+        <div className="menu-toggle" id="menu-toggle">
+            <div className="bar"></div>
+            <div className="bar"></div>
+            <div className="bar"></div>
         </div>
 
         <nav id="nav">

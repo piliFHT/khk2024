@@ -124,6 +124,7 @@ const HomeComponent = () => {
           <p>Loading Auto data...</p>
         )}
       </div>
+      <br/>
       <MapComponent/>
     </>
   );
