@@ -10,7 +10,7 @@ const HomeComponent = () => {
 
     useEffect(() => {
         // Fetch GeoJSON data z backendu
-        fetch("http://localhost:8000/message") // URL backendu
+        fetch("http://localhost:8000/kultura") // URL backendu
             .then((res) => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok');
@@ -64,7 +64,7 @@ const HomeComponent = () => {
 
     return (
         <div className="geo-container">
-            <h2>GeoJSON Data:</h2>
+            <h2>Výběr památky</h2>
             <div className="dropdown" ref={dropdownRef}>
                 <input
                     type="text"
