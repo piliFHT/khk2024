@@ -1,4 +1,3 @@
-//import "../App.css";
 import HomeComponent from "../components/HomeComponent";
 
 function HomePage() {
