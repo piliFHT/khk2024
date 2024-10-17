@@ -1,42 +1,135 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Základní styly */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+header {
+  display: flex;
+  justify-content: space-between; /* Zajišťuje, že logo a menu jsou na opačných stranách */
+  align-items: center;
+  background-color: #00940C;
+  padding: 15px;
+  color: white;
+  position: relative; /* Zajistí, že menu bude pozicováno relativně k headeru */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.logo h1 {
+  margin: 0;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+/* Mobilní hamburger menu button */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative; /* Pozicováno relativně k headeru */
+}
+
+.menu-toggle .bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+}
+
+/* Výchozí zobrazení navigace */
+#nav {
+  display: flex;
+}
+
+.logo img {
+  width: 150px; /* Můžeš upravit šířku dle potřeby */
+  height: auto; /* Zachování poměru stran */
+}
+
+/* Styl pro select komponentu */
+.select {
+  display: block; /* Zajistí, že můžeme snadno manipulovat s jeho zarovnáním */
+  margin: 0 auto; /* Horizontální centrování */
+  padding: 10px; /* Přidáme trochu vnitřního prostoru */
+  width: 300px; /* Nastavíme šířku selectu, aby nebyl až do krajů */
+  max-width: 90%; /* Zajistí, že na menších obrazovkách nebude select roztažený až do krajů */
+  border-radius: 20px; /* Zaoblené okraje */
+  border: 1px solid #ccc; /* Jemný okraj */
+  font-size: 16px; /* Velikost textu */
+  box-sizing: border-box; /* Zajišťuje správný výpočet šířky s paddingem */
+  appearance: none; /* Skryje výchozí šipku v některých prohlížečích */
+  background-color: white; /* Bílý podklad */
+  text-align: center; /* Centrovaný text */
+  cursor: pointer; /* Přidáme ukazatel při najetí myší */
+}
+
+/* Styl pro volby uvnitř selectu */
+select option {
+  padding: 10px; /* Vnitřní odsazení uvnitř jednotlivých voleb */
+  background-color: white; /* Pozadí každé možnosti */
+  text-align: left; /* Zarovná text v možnostech vlevo */
+}
+
+/* Při hoveru nad selectem */
+.select:hover {
+  border-color: #888; /* Změna barvy okraje při hoveru */
+}
+
+/* Styl pro volby při výběru */
+select option:checked {
+  background-color: #f1f1f1; /* Barva pozadí vybrané možnosti */
+}
+
+
+@media (max-width: 768px) {
+  nav ul {
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 0; /* Menu bude zarovnané k pravému okraji */
+      background-color: #00940C;
+      width: 200px;
+      height: 100vh;
+      padding-top: 20px;
+      display: none; /* Skryjeme navigaci na mobilu */
   }
-  to {
-    transform: rotate(360deg);
+
+  nav ul li {
+      margin-left: 0;
+      text-align: center;
+      margin-bottom: 20px;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  /* Zobrazíme hamburger menu na menších obrazovkách */
+  .menu-toggle {
+      display: flex;
+      position: absolute;
+      right: 0; /* Hamburger menu je nyní zarovnáno k pravému okraji headeru */
+      top: 15px;
+      padding-right: 15px;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  /* Když je navigace otevřená (přidána třída "open") */
+  #nav.open ul {
+      display: block; /* Zobrazí menu po kliknutí na hamburger */
+  }
 
-.read-the-docs {
-  color: #888;
+  .logo img {
+      width: 120px; /* Menší šířka pro mobilní zobrazení */
+  }
 }
