@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Header from "./HeaderComponent";
 //import "./App.css";
 
 function HomeComponent() {
@@ -16,6 +17,8 @@ function HomeComponent() {
   }, []);
 
   return (
+    <>
+    <Header/>
     <div className="App">
       <h1>
         GeoJSON data:
@@ -25,14 +28,16 @@ function HomeComponent() {
           {geoData.features.map((feature, index) => 
           <div key={index}>
             <h2>{feature.properties.nazev}</h2>
+            <p>{feature.properties.popis}</p>
           </div>)}
         </div>
 
       ) : (
-      <p>Loading data..</p>
+        <p>Loading data..</p>
       )}
       <div></div>
     </div>
+  </>
   );
 }
 
