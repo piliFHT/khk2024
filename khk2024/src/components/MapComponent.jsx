@@ -134,12 +134,12 @@ const MapComponent = () => {
     }
   }, [selectedPoints, map]); // Run this effect when selectedPoints or map changes
 
-  return (
+     return (
     <>
-      <div
-        id="map"
-        style={{ height: "500px", width: "100%", padding: "5rem" }}
-      ></div>
+      <div className="cont">
+        <div id="informationFrame"></div>
+        <div id="map"></div>
+      </div>
     </>
   );
 };
