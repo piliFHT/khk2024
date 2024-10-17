@@ -1,133 +1,100 @@
-import React, { useEffect, useRef, useState } from "react";
-import "selectize/dist/css/selectize.default.css"; // Import Selectize CSS
-import $ from "jquery"; // Import jQuery
-import "selectize"; // Import Selectize
-import L from "leaflet";
-import 'leaflet/dist/leaflet.js';
-import MapComponent from "./MapComponent";
+import React, { useEffect, useRef, useState } from 'react';
+import "../App.css";
 
 const HomeComponent = () => {
-  const geoSelectRef = useRef(null); // Create a ref for the geo select element
-  const autoSelectRef = useRef(null); // Create a ref for the auto select element
-  const [geoData, setGeoData] = useState(null); // State to hold GeoJSON data
-  const [autoData, setAutoData] = useState(null); // State to hold Auto data
+    const [geoData, setGeoData] = useState(null); // Stav pro GeoJSON data
+    const [filteredData, setFilteredData] = useState([]); // Stav pro filtrovaná data
+    const [searchQuery, setSearchQuery] = useState(''); // Stav pro vyhledávací query
+    const [dropdownOpen, setDropdownOpen] = useState(false); // Stav pro dropdown otevření/zavření
+    const dropdownRef = useRef(null); // Reference pro dropdown div
 
-  useEffect(() => {
-    // Fetch GeoJSON data for kultura
-    fetch("http://localhost:8000/kultura")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
+    useEffect(() => {
+        // Fetch GeoJSON data z backendu
+        fetch("http://localhost:8000/message") // URL backendu
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setGeoData(data); // Uložení dat do stavu
+                setFilteredData(data.features); // Nastavení počátečního zobrazení všech dat
+            })
+            .catch((error) => {
+                console.error("Error fetching the GeoJSON:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        // Funkce pro skrytí dropdownu při kliknutí mimo
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+
+        // Přidání posluchače události
+        document.addEventListener('mousedown', handleClickOutside);
+
+        // Cleanup function, která se zavolá při unmountování komponenty
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    // Funkce pro filtrování dat na základě vyhledávání
+    const handleSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+        if (geoData) {
+            const filtered = geoData.features.filter(feature =>
+                feature.properties.nazev.toLowerCase().includes(query)
+            );
+            setFilteredData(filtered);
         }
-        return res.json();
-      })
-      .then((data) => {
-        setGeoData(data); // Set the GeoJSON data to state
-      })
-      .catch((error) => {
-        console.error("Error fetching the GeoJSON:", error);
-      });
-  }, []);
+    };
 
-  useEffect(() => {
-    // Fetch Auto data
-    fetch("http://localhost:8000/autobusy")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((autobus) => {
-        setAutoData(autobus); // Set the Auto data to state
-      })
-      .catch((error) => {
-        console.error("Error fetching the Auto data:", error);
-      });
-  }, []);
+    // Funkce pro výběr položky z dropdownu
+    const handleOptionClick = (nazev) => {
+        console.log('Selected option:', nazev);
+        setSearchQuery(nazev);
+        setDropdownOpen(false); // Zavřeme dropdown po výběru
+    };
 
-  useEffect(() => {
-    if (geoData) {
-      // Initialize Selectize for GeoJSON data when available
-      const $geoSelect = $(geoSelectRef.current).selectize({
-        onChange: (value) => {
-          console.log("Selected Geo value:", value); // Handle selection for geoData
-        },
-      });
 
-      // Populate Selectize with GeoJSON features
-      const geoSelectize = $geoSelect[0].selectize;
-
-      geoData.features.forEach((feature) => {
-        geoSelectize.addOption({
-          value: feature.properties.nazev,
-          text: feature.properties.nazev,
-        });
-      });
-
-      geoSelectize.refreshOptions(false); // Refresh options to display newly added ones
-
-      // Cleanup the Selectize instance when the component unmounts
-      return () => {
-        geoSelectize.destroy();
-      };
-    }
-  }, [geoData]); // Run this effect when geoData changes
-
-  useEffect(() => {
-    if (autoData) {
-      // Initialize Selectize for Auto data when available
-      const $autoSelect = $(autoSelectRef.current).selectize({
-        onChange: (value) => {
-          console.log("Selected Auto value:", value); // Handle selection for autoData
-        },
-      });
-
-      // Populate Selectize with Auto data features
-      const autoSelectize = $autoSelect[0].selectize;
-
-      autoData.features.forEach((feature) => {
-        autoSelectize.addOption({
-          value: feature.properties.nazev,
-          text: feature.properties.nazev,
-        });
-      });
-
-      autoSelectize.refreshOptions(false); // Refresh options to display newly added ones
-
-      // Cleanup the Selectize instance when the component unmounts
-      return () => {
-        autoSelectize.destroy();
-      };
-    }
-  }, [autoData]); // Run this effect when autoData changes
-
-  return (
-    <>
-      <div>
-        <h1>GeoJSON data:</h1>
-        {geoData ? (
-          <select ref={geoSelectRef} placeholder="Select an option...">
-            <option value="">Select an option...</option>
-          </select>
-        ) : (
-          <p>Loading Geo data...</p>
-        )}
-      </div>
-      <div>
-        <h1>Auto data:</h1>
-        {autoData ? (
-          <select ref={autoSelectRef} placeholder="Select an option...">
-            <option value="">Select an option...</option>
-          </select>
-        ) : (
-          <p>Loading Auto data...</p>
-        )}
-      </div>
-      <br/>
-      <MapComponent/>
-    </>
-  );
+    return (
+        <div className="geo-container">
+            <h2>GeoJSON Data:</h2>
+            <div className="dropdown" ref={dropdownRef}>
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    placeholder="Vyhledat..."
+                    className="dropdown-btn"
+                    onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle otevření dropdownu
+                />
+                {dropdownOpen && (
+                    <div className="dropdown-content">
+                        {filteredData.length > 0 ? (
+                            filteredData.map((feature, index) => (
+                                <a
+                                    href="#"
+                                    key={index}
+                                    onClick={() => handleOptionClick(feature.properties.nazev)}
+                                >
+                                    {feature.properties.nazev}
+                                </a>
+                            ))
+                        ) : (
+                            <p>No results found</p>
+                        )}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default HomeComponent;
