@@ -50,7 +50,7 @@ const MapComponent = () => {
     }
   }, [geoData]); // Run this effect when geoData changes
 
-  return <div id="map" style={{ height: "500px", width: "100%" }}></div>;
+  return <div id="map" style={{ height: "500px", width: "100%", padding: "5rem"}}></div>;
 };
 
 export default MapComponent;
