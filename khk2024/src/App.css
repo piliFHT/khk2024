@@ -5,7 +5,7 @@ body {
   padding: 0;
 }
 
-header {
+header, footer{
   display: flex;
   justify-content: space-between; /* Zajišťuje, že logo a menu jsou na opačných stranách */
   align-items: center;
@@ -16,45 +16,14 @@ header {
   position: relative; /* Zajistí, že menu bude pozicováno relativně k headeru */
 }
 
+footer > *{
+  display: flex;
+  flex-direction: row;
+}
+
+
 .logo {
   margin: 0;
-}
-
-nav ul {
-  display: flex;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-nav ul li {
-  margin-left: 20px;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-/* Mobilní hamburger menu button */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  position: relative; /* Pozicováno relativně k headeru */
-}
-
-.menu-toggle .bar {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  margin: 4px 0;
-}
-
-/* Výchozí zobrazení navigace */
-#nav {
-  display: flex;
 }
 
 .logo img {
@@ -147,26 +116,19 @@ h1 {
 
 
 
-#map {
+#map, #informationFrame {
   width: 20%; /* Šířka mapy */
   height: 300px; /* Výška mapy */
   padding: 5rem; /* Vnitřní odsazení */
+  margin-bottom: 20px;
   border: 5px solid #00940C; /* Zelený okraj */
   border-radius: 35px; /* Zaoblené rohy */  
   display: table;
-  margin: 0 auto;
   z-index: -1;
 }
 
-#informationFrame{
-  width: 20%; /* Šířka mapy */
-  height: 300px; /* Výška mapy */
-  padding: 5rem; /* Vnitřní odsazení */
-  border: 5px solid #00940C; /* Zelený okraj */
-  border-radius: 35px; /* Zaoblené rohy */  
-  display: table;
-  /* margin: 0 auto; */
-  z-index: -1;
+#map{
+  margin: 0 auto;
 }
 
 .cont{
@@ -178,43 +140,12 @@ h1 {
 }
 
 
-
-
 @media (max-width: 768px) {
-  nav ul {
-      flex-direction: column;
-      position: absolute;
-      top: 60px;
-      right: 0; /* Menu bude zarovnané k pravému okraji */
-      background-color: #00940C;
-      width: 200px;
-      height: 100vh;
-      padding-top: 20px;
-      display: none; /* Skryjeme navigaci na mobilu */
+  .cont{
+    flex-direction: column;
   }
+}
 
-  nav ul li {
-      margin-left: 0;
-      text-align: center;
-      margin-bottom: 20px;
-  }
-
-
-  /* Zobrazíme hamburger menu na menších obrazovkách */
-  .menu-toggle {
-      display: flex;
-      position: absolute;
-      right: 0; /* Hamburger menu je nyní zarovnáno k pravému okraji headeru */
-      top: 15px;
-      padding-right: 15px;
-  }
-
-  /* Když je navigace otevřená (přidána třída "open") */
-  #nav.open ul {
-      display: block; /* Zobrazí menu po kliknutí na hamburger */
-  }
-
-  .logo img {
-      width: 120px; /* Menší šířka pro mobilní zobrazení */
-  }
+footer div h4{
+  margin-left: 10px;
 }
