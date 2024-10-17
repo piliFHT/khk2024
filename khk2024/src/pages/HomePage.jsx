@@ -3,6 +3,7 @@ import HomeComponent from "../components/HomeComponent";
 import MapComponent from "../components/MapComponent";
 import Footer from "../components/FooterComponent";
 
+
 function HomePage() {
  
  return(

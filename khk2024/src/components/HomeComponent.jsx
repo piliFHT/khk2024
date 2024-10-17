@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import "../App.css";
 
 const HomeComponent = () => {
-    const [geoData, setGeoData] = useState(null); // Stav pro GeoJSON data
-    const [filteredData, setFilteredData] = useState([]); // Stav pro filtrovaná data
-    const [searchQuery, setSearchQuery] = useState(''); // Stav pro vyhledávací query
-    const [dropdownOpen, setDropdownOpen] = useState(false); // Stav pro dropdown otevření/zavření
-    const dropdownRef = useRef(null); // Reference pro dropdown div
-
+  const [geoData, setGeoData] = useState(null); // Stav pro GeoJSON data
+  const [filteredData, setFilteredData] = useState([]); // Stav pro filtrovaná data
+  const [searchQuery, setSearchQuery] = useState(""); // Stav pro vyhledávací query
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Stav pro dropdown otevření/zavření
+  const dropdownRef = useRef(null); // Reference pro dropdown div
     useEffect(() => {
         // Fetch GeoJSON data z backendu
         fetch("http://localhost:8000/kultura") // URL backendu
@@ -34,34 +33,43 @@ const HomeComponent = () => {
             }
         };
 
-        // Přidání posluchače události
-        document.addEventListener('mousedown', handleClickOutside);
 
-        // Cleanup function, která se zavolá při unmountování komponenty
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    // Funkce pro filtrování dat na základě vyhledávání
-    const handleSearch = (e) => {
-        const query = e.target.value.toLowerCase();
-        setSearchQuery(query);
-        if (geoData) {
-            const filtered = geoData.features.filter(feature =>
-                feature.properties.nazev.toLowerCase().includes(query)
-            );
-            setFilteredData(filtered);
-        }
+  useEffect(() => {
+    // Funkce pro skrytí dropdownu při kliknutí mimo
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
     };
 
-    // Funkce pro výběr položky z dropdownu
-    const handleOptionClick = (nazev) => {
-        console.log('Selected option:', nazev);
-        setSearchQuery(nazev);
-        setDropdownOpen(false); // Zavřeme dropdown po výběru
-    };
+    // Přidání posluchače události
+    document.addEventListener("mousedown", handleClickOutside);
 
+    // Cleanup function, která se zavolá při unmountování komponenty
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Funkce pro filtrování dat na základě vyhledávání
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    if (geoData) {
+      const filtered = geoData.features.filter((feature) =>
+        feature.properties.nazev.toLowerCase().includes(query)
+      );
+      setFilteredData(filtered);
+    }
+  };
+
+  // Funkce pro výběr položky z dropdownu
+  const handleOptionClick = (nazev) => {
+    console.log("Selected option:", nazev);
+    setSearchQuery(nazev);
+    setDropdownOpen(false); // Zavřeme dropdown po výběru
+  };
+      
     return (
         <div className="geo-container">
             <h2>Výběr památky</h2>
@@ -91,9 +99,13 @@ const HomeComponent = () => {
                         )}
                     </div>
                 )}
+
             </div>
+          )}
         </div>
-    );
+      </div>
+    </>
+  );
 };
 
 export default HomeComponent;
