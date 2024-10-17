@@ -10,12 +10,6 @@ function Header() {
             <img src={logo} alt="Logo webu"></img>
         </div>
 
-        <div class="menu-toggle" id="menu-toggle">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
-
        <h1>APA</h1>
     </header>
   );

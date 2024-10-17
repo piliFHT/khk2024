@@ -1,5 +1,6 @@
 import Header from "../components/HeaderComponent";
 import HomeComponent from "../components/HomeComponent";
+import MapComponent from "../components/MapComponent";
 
 function HomePage() {
  
@@ -7,6 +8,7 @@ function HomePage() {
     <>
         <Header/>
         <HomeComponent/>
+        <MapComponent/>
     
     </>
  )
