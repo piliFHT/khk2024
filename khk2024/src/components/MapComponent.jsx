@@ -53,7 +53,10 @@ const MapComponent = () => {
 
   return (
     <>
-    <div id="map"></div>;
+      <div className="cont">
+        <div id="informationFrame"></div>
+        <div id="map"></div>
+      </div>
     </>
   )
 };
