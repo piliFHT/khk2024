@@ -1,44 +1,69 @@
-import { useState, useEffect } from "react";
-import Header from "./HeaderComponent";
-//import "./App.css";
+import React, { useEffect, useRef, useState } from 'react';
+import 'selectize/dist/css/selectize.default.css'; // Import Selectize CSS
+import $ from 'jquery'; // Import jQuery
+import 'selectize'; // Import Selectize
 
-function HomeComponent() {
-  const [geoData, setGeoData] = useState(null);
+const HomeComponent = () => {
+    const selectRef = useRef(null); // Create a ref for the select element
+    const [geoData, setGeoData] = useState(null); // State to hold GeoJSON data
 
-  useEffect(() => {
-    fetch("http://localhost:8000/message")
-      .then((res) => res.json())
-      .then((data) => {
-        setGeoData(data); 
-      })
-      .catch((error) => {
-        console.error("Error fetching data", error);
-      });
-  }, []);
+    useEffect(() => {
+        // Fetch GeoJSON data from your backend
+        fetch("http://localhost:8000/message") // Assuming your server returns GeoJSON
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setGeoData(data); // Set the GeoJSON data to state
+            })
+            .catch((error) => {
+                console.error("Error fetching the GeoJSON:", error);
+            });
+    }, []);
 
-  return (
-    <>
-    <Header/>
-    <div className="App">
-      <h1>
-        GeoJSON data:
-      </h1>
-      {geoData ? (
+    useEffect(() => {
+        if (geoData) {
+            // Initialize Selectize when GeoJSON data is available
+            const $select = $(selectRef.current).selectize({
+                onChange: (value) => {
+                    console.log('Selected value:', value); // You can handle the selection here
+                },
+            });
+
+            // Populate Selectize with GeoJSON features
+            const selectize = $select[0].selectize;
+
+            geoData.features.forEach((feature) => {
+                selectize.addOption({
+                    value: feature.properties.nazev,
+                    text: feature.properties.nazev,
+                });
+            });
+
+            selectize.refreshOptions(false); // Refresh options to display newly added ones
+
+            // Cleanup the Selectize instance when the component unmounts
+            return () => {
+                selectize.destroy();
+            };
+        }
+    }, [geoData]); // Run this effect when geoData changes
+
+    return (
         <div>
-          {geoData.features.map((feature, index) => 
-          <div key={index}>
-            <h2>{feature.properties.nazev}</h2>
-            <p>{feature.properties.popis}</p>
-          </div>)}
+            <h1>GeoJSON data:</h1>
+            {geoData ? (
+                <select ref={selectRef} placeholder="Select an option...">
+                    <option value="">Select an option...</option>
+                </select>
+            ) : (
+                <p>Loading data...</p>
+            )}
         </div>
-
-      ) : (
-        <p>Loading data..</p>
-      )}
-      <div></div>
-    </div>
-  </>
-  );
-}
+    );
+};
 
 export default HomeComponent;
