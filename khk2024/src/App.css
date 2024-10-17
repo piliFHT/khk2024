@@ -15,7 +15,7 @@ header {
   position: relative; /* Zajistí, že menu bude pozicováno relativně k headeru */
 }
 
-.logo h1 {
+.logo {
   margin: 0;
 }
 
@@ -61,40 +61,87 @@ nav ul li a {
   height: auto; /* Zachování poměru stran */
 }
 
-/* Styl pro select komponentu */
-.select {
-  display: block; /* Zajistí, že můžeme snadno manipulovat s jeho zarovnáním */
-  margin: 0 auto; /* Horizontální centrování */
-  padding: 10px; /* Přidáme trochu vnitřního prostoru */
-  width: 300px; /* Nastavíme šířku selectu, aby nebyl až do krajů */
-  max-width: 90%; /* Zajistí, že na menších obrazovkách nebude select roztažený až do krajů */
-  border-radius: 20px; /* Zaoblené okraje */
-  border: 1px solid #ccc; /* Jemný okraj */
-  font-size: 16px; /* Velikost textu */
-  box-sizing: border-box; /* Zajišťuje správný výpočet šířky s paddingem */
-  appearance: none; /* Skryje výchozí šipku v některých prohlížečích */
-  background-color: white; /* Bílý podklad */
-  text-align: center; /* Centrovaný text */
-  cursor: pointer; /* Přidáme ukazatel při najetí myší */
+.geo-container {
+  padding: 20px;
+  text-align: center;
 }
 
-/* Styl pro volby uvnitř selectu */
-select option {
-  padding: 10px; /* Vnitřní odsazení uvnitř jednotlivých voleb */
-  background-color: white; /* Pozadí každé možnosti */
-  text-align: left; /* Zarovná text v možnostech vlevo */
+h1 {
+  color: white;
+  font-weight: bold;
+  font-size: 6rem;
+  margin: 0;
+  text-shadow: 
+    -1px -1px 0 rgb(60, 60, 60),  
+     1px -1px 0 rgb(60, 60, 60),
+    -1px  1px 0 rgb(60, 60, 60),
+     1px  1px 0 rgb(60, 60, 60);
 }
 
-/* Při hoveru nad selectem */
-.select:hover {
-  border-color: #888; /* Změna barvy okraje při hoveru */
+
+.dropdown {
+  position: relative;
+  width: 300px;
+  margin: 0 auto; /* Centrovat dropdown na střed stránky */
+  text-align: center;
 }
 
-/* Styl pro volby při výběru */
-select option:checked {
-  background-color: #f1f1f1; /* Barva pozadí vybrané možnosti */
+.dropdown-btn {
+  background-color: #00940C;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 50px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  padding-left: 15px;
 }
 
+.dropdown-btn:hover {
+  background-color: #555;
+}
+
+.dropdown-content {
+  display: block;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 100%;
+  max-height: 200px; /* Maximální výška pro obsah dropdownu */
+  overflow-y: auto; /* Scrollovatelný obsah pokud je moc položek */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 20px;
+  padding: 10px;
+  top: 100%;
+  left: 0;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Styl pro zprávu o nenalezených výsledcích */
+.dropdown-content p {
+  padding: 12px 16px;
+  text-align: left;
+  color: #999;
+}
+
+.dropdown.show .dropdown-content {
+  display: block;
+}
 
 @media (max-width: 768px) {
   nav ul {
@@ -114,6 +161,7 @@ select option:checked {
       text-align: center;
       margin-bottom: 20px;
   }
+
 
   /* Zobrazíme hamburger menu na menších obrazovkách */
   .menu-toggle {
