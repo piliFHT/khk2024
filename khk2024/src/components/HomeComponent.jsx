@@ -62,6 +62,7 @@ const HomeComponent = () => {
         setDropdownOpen(false); // Zavřeme dropdown po výběru
     };
 
+
     return (
         <div className="geo-container">
             <h2>GeoJSON Data:</h2>
